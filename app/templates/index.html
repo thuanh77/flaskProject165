@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Тестовая страница</title>
-</head>
-<body>
-<h1>Ghbdtn</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <span class="title">
+        <h1>{% block title %}Главная страница{% endblock  %}</h1>
+    </span>
+{% endblock %}

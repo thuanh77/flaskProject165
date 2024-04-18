@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+    <span class="title">
+        <h1>{% block title %}Посты{% endblock  %}</h1>
+    </span>
+    {% for post in posts %}
+            <div style="margin-top: 1%">
+                <div class="container-fluid">
+                    <div class="row align-items-start">
+                        <div class="col">
+                            <div class="bg-image card shadow-1-strong"
+                                 style="background: radial-gradient(circle, rgb(134,145,214) 0%, rgb(72,181,236) 100%); background-size: 100%">
 
-</body>
-</html>
+                                <div class="card-body text-black">
+                                    <h2>{{ post.title }}</h2>
+                                    <p>Автор поста: <b>{{ post.author }}</b></p>
+                                    <p>{{ post.content }}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}

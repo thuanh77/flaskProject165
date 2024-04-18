@@ -1,2 +1,3 @@
-def db():
-    return None
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
