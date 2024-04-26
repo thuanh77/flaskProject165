@@ -37,11 +37,20 @@
                             <li><a class="dropdown-item" href="{{ url_for('questions.index') }}">Вопросы автору</a></li>
                         </ul>
                     </li>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
                 </ul>
             </div>
         </div>
     </nav>
 
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <!-- Содержимое модального окна для авторизации -->
+</div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    {% include 'auth_user/index.html' %}
+</div>
 
 <div class="content">
     {% block content %}
