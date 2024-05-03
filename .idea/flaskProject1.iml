@@ -19,6 +19,8 @@
         <option value="$MODULE_DIR$/app/templates/page" />
         <option value="$MODULE_DIR$/app/templates/posts" />
         <option value="$MODULE_DIR$/app/templates/questions" />
+        <option value="$MODULE_DIR$/app/templates/register" />
+        <option value="$MODULE_DIR$/app/templates/auth" />
       </list>
     </option>
   </component>

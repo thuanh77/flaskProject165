@@ -1,26 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
     <span class="title">
-        <h1>{% block title %}Посты{% endblock  %}</h1>
+        <h1>{% block title %}Посты{% endblock %}</h1>
     </span>
     {% for post in posts %}
-            <div style="margin-top: 1%">
-                <div class="container-fluid">
-                    <div class="row align-items-start">
-                        <div class="col">
-                            <div class="bg-image card shadow-1-strong"
-                                 style="background: radial-gradient(circle, rgb(134,145,214) 0%, rgb(72,181,236) 100%); background-size: 100%">
+        <div style="margin-top: 1%">
+            <div class="container-fluid">
+                <div class="row align-items-start">
+                    <div class="col">
+                        <div class="bg-image card shadow-1-strong"
+                             style="background: radial-gradient(circle, rgb(134,145,214) 0%, rgb(72,181,236) 100%); background-size: 100%">
 
-                                <div class="card-body text-black">
-                                    <h2>{{ post.title }}</h2>
-                                    <p>Автор поста: <b>{{ post.author }}</b></p>
-                                    <p>{{ post.content }}</p>
+                            <div class="card-body text-black">
+                                <h2>{{ post.title }}</h2>
+                                <p>Автор поста: <b>{{ post.author }}</b></p>
+                                <p>{{ post.content }}</p>
 
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
+    {% if posts.pages %}
+        <p>
+        <ul class="pagination justify-content-center">
+            {% if posts.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('posts.index', page_num=posts.prev_num) }}">Предыдущая</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Предыдущая</span>
+            {% endif %}
+
+            {% for p in posts.iter_pages(left_edge=2, right_edge=2) %}
+                {% if p %}
+                    <li class="page-item"><a class="page-link"
+                                             href="{{ url_for('posts.index', page_num=p) }}">{{ p }}</a></li>
+                {% else %}
+                    <li class="page-item disabled" id="example_ellipsis"><a href="#">...</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if posts.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('posts.index', page_num=posts.next_num) }}">Следующая</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Следующая</span>
+            {% endif %}
+        </ul>
+    {% endif %}
 {% endblock %}
+
