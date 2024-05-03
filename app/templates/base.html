@@ -8,41 +8,66 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
 </head>
-<body>
-<div class="g-image"
-     style="background: linear-gradient(90deg, rgb(83,163,223) 0%, rgb(156,156,255) 50%, rgb(88,159,216) 100%); background-size: cover;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Навигация</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Переключатель навигации">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">Главная</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('posts.index') }}">Посты</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Разделы блога
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for('page.index') }}">Статичная страница</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('questions.index') }}">Вопросы автору</a></li>
-                        </ul>
-                    </li>
+<body style="background: linear-gradient(90deg, rgb(83,163,223) 0%, rgb(156,156,255) 50%, rgb(88,159,216) 100%); background-size: cover;">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Навигация</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.index') }}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('posts.index', page_num=1) }}">Посты</a>
+                </li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    Разделы блога
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{ url_for('page.index') }}">Статичная страница</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('questions.index') }}">Вопросы автору</a></li>
                 </ul>
-            </div>
+            </ul>
+            <form class="d-flex">
+                <li class="nav-item">
+                    <div id="google_translate_element"></div>
+                    <script type="text/javascript">
+                        function googleTranslateElementInit() {
+                            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                        }
+                    </script>
+                    <script type="text/javascript"
+                            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                </li>
+                <li>
+                    {% if 'username' in session %}
+                        <li class="last" style="color:#fff">{{ session['username'] }}<a
+                                href="{{ url_for('auth.logout') }}">
+                            <button type="button" class="btn btn-primary">Выйти</button>
+                        </a></li>
+                    {% else %}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#reg1">Регистрация
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#log1">Авторизация
+                        </button>
+                    {% endif %}
+                </li>
+            </form>
         </div>
-    </nav>
+    </div>
+</nav>
 
-
+{% include 'register/index.html' %}
+{% include 'auth/index.html' %}
 <div class="content">
     {% block content %}
 
@@ -50,7 +75,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            // Получите все формы, к которым мы хотим применить пользовательские стили проверки Bootstrap
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Зацикливайтесь на них и предотвращайте отправку
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        // Получаем значения полей пароля и подтверждения пароля
+                        var password = form.querySelector('#password1').value;
+                        var confirm_password = form.querySelector('#password2').value;
+                        var passwordHelpBlock = form.querySelector('#passwordHelpBlock');
+
+                        // Проверяем совпадение паролей
+                        if (password !== confirm_password) {
+                            passwordHelpBlock.classList.remove('d-none');
+                            form.classList.remove('was-validated');
+                            event.preventDefault();
+                            event.stopPropagation();
+                        } else {
+                            passwordHelpBlock.classList.add('d-none');
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }
+                    }, false);
+                });
+        })();
+    </script>
+
 </div>
-</div>
+
 </body>
 </html>
