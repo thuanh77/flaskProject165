@@ -4,7 +4,7 @@ import pandas as pd
 
 def db_process(y_test, y_pred_rgr, y_pred_bst, y_pred_rnn):
     # Connect to the database
-    engine = create_engine("mysql+mysqlconnector://root:1234@localhost:3306/flaskdb")
+    engine = create_engine("mysql://root:123456@localhost/post294")
 
     df = pd.DataFrame({
         'Real_result': y_test.reshape(-1),

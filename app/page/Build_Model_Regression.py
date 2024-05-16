@@ -76,7 +76,7 @@ def create_model_RNN(x, y):
     rnn_model.compile(optimizer='adam', loss='mse')
 
     # Fit model
-    rnn_model.fit(x_train, y_train, epochs=51, batch_size=1)
+    rnn_model.fit(x_train, y_train, epochs=10, batch_size=1)
 
     # Predict on test data
     y_pred_rnn = rnn_model.predict(x_test).flatten()

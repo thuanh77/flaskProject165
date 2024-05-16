@@ -1,7 +1,7 @@
 from flask import render_template, request, url_for, redirect, flash, session
 
 from app.auth import bp
-from app.models.auth_user import Auth_User
+from app.models.user import user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -10,11 +10,11 @@ def index():
         username = request.form['username']
         password = request.form['password1']
 
-        user = Auth_User.query.filter_by(username=username).first()
+        user1 = user.query.filter_by(username=username).first()
 
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            session['username'] = user.username
+        if user1 and check_password_hash(user1.password, password):
+            session['user_id'] = user1.id
+            session['username'] = user1.username
             flash('Вы успешно вошли', 'success')
             return redirect(url_for('main.index'))
         else:
