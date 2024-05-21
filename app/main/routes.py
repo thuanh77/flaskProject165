@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash
 
 from app.extensions import db
 from app.main import bp
-from app.models.auth_user import Auth_User
 
 
 @bp.route('/')
